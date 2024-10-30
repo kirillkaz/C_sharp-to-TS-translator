@@ -1,0 +1,21 @@
+.textareas-block{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    padding: 50px;
+}
+
+.from-textarea{
+    height: 60vh;
+    resize: none;
+}
+
+.to-textarea{
+    height: 60vh;
+    resize: none;
+}
+
+.translate-button-block{
+    display: flex;
+    justify-content: center;
+}

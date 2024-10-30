@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "c-sharp-to-ts-translator"
+version = "0.1.0"
+description = ""
+authors = ["kirillkaz <kirillkazazaev@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+dash = "^2.18.1"
+dash-bootstrap-components = "^1.6.0"
+pytest = "^8.3.3"
+dash-extensions = "^1.0.18"
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.7.1"
+mypy = "^1.13.0"
+ipython = "^8.29.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

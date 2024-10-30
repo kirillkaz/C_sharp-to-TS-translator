@@ -1,0 +1,1 @@
+from .main_page_callbacks import translate_callback

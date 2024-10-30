@@ -1,1 +1,3 @@
-# C_sharp-to-TS-translator
+### Запуск проекта
+Необходимо находясь в корневой директории прописать:
+`python3 -m c_sharp_to_ts_translator.main`
