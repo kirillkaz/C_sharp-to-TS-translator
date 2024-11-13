@@ -10,7 +10,8 @@ def _render_texareas_block() -> html.Div:
                 id="from-textarea-id",
                 placeholder="Введите код для на C# для трансляции...",
                 className="from-textarea",
-            ),
+                value="int a = 2;\nint b = 5;\nint c = a + b;"
+            ),  
             dbc.Textarea(
                 id="to-textarea-id",
                 placeholder="Здесь появится код на TypeScript...",
