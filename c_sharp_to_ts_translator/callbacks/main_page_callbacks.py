@@ -2,6 +2,7 @@ from dash import Input, Output, State
 
 from c_sharp_to_ts_translator.app import app
 from c_sharp_to_ts_translator.lexical_analyzer.tokenizer import tokenize
+from c_sharp_to_ts_translator.AST_builder import AST_builder
 # чо ета? :3
 @app.callback(
     Output("to-textarea-id", "value"),
@@ -21,7 +22,18 @@ def translate_callback(_: int, from_value: str) -> str:
         str: Код на языке TS
     """
 
-    tokens = tokenize(from_value)
+
+    # tokens = tokenize(from_value)
+    # int x = 42;
+    tokens = [
+    ("KEYWORD", "int"),
+    ("IDENTIFIER", "x"),
+    ("ASSIGNMENT", "="),
+    ("NUMBER", "42"),
+    ("SEMICOLON", ";")
+    ]
+    
+    AST_tree = AST_builder(tokens)
     
 
-    return from_value + "ti krasavchik (roma loh)"
+    return AST_tree
