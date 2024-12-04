@@ -1,8 +1,9 @@
+import sys
 from dash import Input, Output, State
 
 from c_sharp_to_ts_translator.app import app
 from c_sharp_to_ts_translator.lexical_analyzer.tokenizer import tokenize
-from c_sharp_to_ts_translator.AST_builder import AST_builder
+from c_sharp_to_ts_translator.AST_parser.AST_parser import parse_AST, ast_to_string
 # чо ета? :3
 @app.callback(
     Output("to-textarea-id", "value"),
@@ -10,6 +11,9 @@ from c_sharp_to_ts_translator.AST_builder import AST_builder
     State("from-textarea-id", "value"),
     prevent_initial_call=True,
 )
+
+
+
 
 
 def translate_callback(_: int, from_value: str) -> str:
@@ -25,15 +29,22 @@ def translate_callback(_: int, from_value: str) -> str:
 
     # tokens = tokenize(from_value)
     # int x = 42;
-    tokens = [
-    ("KEYWORD", "int"),
-    ("IDENTIFIER", "x"),
-    ("ASSIGNMENT", "="),
-    ("NUMBER", "42"),
-    ("SEMICOLON", ";")
+    tokens = [    
+        ("KEYWORD", "int"),
+        ("IDENTIFIER", "x"),    
+        ("ASSIGNMENT", "="),
+        ("NUMBER", "42"),    
+        ("SEMICOLON", ";"),
+        ("KEYWORD", "string"),    
+        ("IDENTIFIER", "name"),
+        ("ASSIGNMENT", "="),    
+        ("STRING", '"John"'),
+        ("SEMICOLON", ";"),
     ]
     
-    AST_tree = AST_builder(tokens)
+    AST_tree = parse_AST(tokens)
+    AST_str = ast_to_string(AST_tree)
     
+    #sys.stdout.write(print_ast(AST_tree))
 
-    return AST_tree
+    return AST_str

@@ -5,7 +5,7 @@ class ASTNode:
         self.children = children if children is not None else []
 
 # Основная функция парсера
-def AST_builder(tokens):
+def parse_AST(tokens):
     # Шаг 1: Разделение токенов на блоки переменных
     declarations = parse_variable_declarations(tokens)
     
@@ -23,7 +23,7 @@ def parse_variable_declarations(tokens):
         if declaration:
             declarations.append(declaration)
         # Удаляем уже обработанные токены
-        tokens = tokens[len(declaration.children):]
+        tokens = tokens[5:]
     return declarations
 
 # Функция для парсинга одной декларации переменной
@@ -54,3 +54,9 @@ def parse_value(token):
     elif token[0] == "STRING":
         return token[1][1:-1]  # Убираем кавычки
     return None
+
+def ast_to_string(node, indent=""):    
+    result = f"{indent}{node.type}: {node.value}\n" 
+    for child in node.children:
+        result += ast_to_string(child, indent + "  ")  # Увеличиваем отступ   
+    return result
