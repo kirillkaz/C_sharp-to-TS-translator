@@ -2,13 +2,15 @@ import re
 
 # Определим шаблоны для различных токенов C#
 TOKENS = [
-    ('KEYWORD', r'\b(public|private|class|void|int|float|string|bool|if|else|return|for|while)\b'),
+    ('KEYWORD', r'\b(break|byte|case|catch|char|const|continue|delegate|do|double|enum|false|float|true|foreach|in|int|interface|long|namespace|new|null|object|operator|private|public|private|protected|short|static|string|struct|switch|this|throw|try|using|void|class|if|else|return|for|while)\b'),
+    ('CONTEXTUAL_KEYWORD', r'\b(add|and|args|dynamic|equals|global|nameof|not|remove|set|value|var|with)\b|:'),
+    ("STANDART_METHODS",r'\b(Console\.WriteLine)\b'),
     ('IDENTIFIER', r'\b[A-Za-z_][A-Za-z0-9_]*\b'),
-    ('OPERATOR', r'(\+|\-|\*|\/|==|!=|&&|\|\||=|>|<|>=|<=)'),
+    ('OPERATOR', r'(\+|\-|\*|\/|==|!=|&&|\|\||\||&|=|>|<|>=|<=|\+-|\-=|\*=|\/=|\%=|\+\+|\-\-)'),   
     ('LITERAL', r'\b\d+(\.\d+)?\b'),  # Числа с поддержкой десятичной точки
     ('STRING', r'"([^"\\]|\\.)*"'),   # Строки с обработкой escape-последовательностей
     ('DELIMITER', r'(\{|\}|\(|\)|;|,|\[|\])'),
-    ('WHITESPACE', r'\s+'),           # Пробелы
+    ('WHITESPACE', r'\s+|[\r\n]+'),           # Пробелы
     ('COMMENT', r'\/\/[^\n]*|\/\*[\s\S]*?\*\/'),  # Однострочные и многострочные комментарии
     ('UNKNOWN', r'.')                 # Любой неизвестный символ
 ]
