@@ -1,0 +1,1 @@
+from .declaration_rule import parse_variable_declaration
