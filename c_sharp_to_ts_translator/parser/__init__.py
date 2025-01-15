@@ -1,1 +1,1 @@
-from .parser import parse_to_AST
+from .parser import Parser

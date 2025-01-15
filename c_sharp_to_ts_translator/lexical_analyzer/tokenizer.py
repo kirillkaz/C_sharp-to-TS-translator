@@ -47,7 +47,7 @@ def tokenize(code):
                 if token_type == "STRING" and not token_text.endswith('"'):  # Проверка незакрытой строки
                     raise SyntaxError(f"Незакрытая строка на строке {line}, позиции {pos}")
                 if token_type != "COMMENT":  # Игнорируем комментарии
-                    tokens.append((token_type, token_text, line))
+                    tokens.append((token_type, token_text))
                 pos = match.end(0)
                 break
         if not match:

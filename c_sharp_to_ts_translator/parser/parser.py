@@ -1,20 +1,30 @@
 from .rules import parse_variable_declaration
+from .rules import parse_class
 from .ASTNode import ASTNode
 
-def parse_to_AST(tokens):
-    nodes = []
-    position = 0
+class Parser:
+    def __init__(self, tokens):
+        self.tokens = tokens
+        self.position = 0
 
-    while position < len(tokens):
-        token_type, token_value = tokens[position]
+    def parse_to_AST(self):
+        nodes = []
 
-        if token_type == "KEYWORD" and token_value == "var":
-            nodes.append(parse_variable_declaration(tokens, position))
-            position += 5;
-        else:
-            position += 1
+        while self.position < len(self.tokens):
+            token_type, token_value = self.tokens[self.position]
 
-    return ASTNode(
-        type="Program",
-        children=nodes
-    )
+            if token_type == "KEYWORD" and token_value == "class":
+                node, new_pos = parse_class(self.tokens, self.position)  # Используем функцию parse_class
+                nodes.append(node)
+                self.position = new_pos
+            elif token_type == "KEYWORD" and token_value in {"int", "double", "float", "bool", "string", "char"} :
+                node, new_pos = parse_variable_declaration(self.tokens, self.position)
+                nodes.append(node)
+                self.position = new_pos
+            else:
+                self.position += 1  # Перемещаем позицию для остальных случаев
+
+        return ASTNode(
+            type="Program",
+            children=nodes
+        )
