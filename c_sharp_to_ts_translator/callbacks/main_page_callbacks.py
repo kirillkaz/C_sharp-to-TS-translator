@@ -5,6 +5,7 @@ from dash import Input, Output, State, no_update
 from c_sharp_to_ts_translator.app import app
 from c_sharp_to_ts_translator.lexical_analyzer.tokenizer import tokenize
 
+from ..gpt import get_openai_response
 
 @app.callback(
     Output("timer", "n_intervals"),
@@ -22,13 +23,14 @@ def debounce_callback(_: int) -> Tuple[int, int, bool]:
 @app.callback(
     Output("result", "data"),
     Input("timer", "n_intervals"),
+    State("from-textarea-id", "value"),
     prevent_initial_call=True,
 )
-def translate_callback(trigger: int) -> str:
+def translate_callback(trigger: int, value: str) -> str:
     """Колбэк для трансляции кода (работает с задержкой)
     """
     if trigger == 2:
-        return "Тут нужно вернуть то, что будет в результате"
+        return get_openai_response(value)
     return no_update
 
 

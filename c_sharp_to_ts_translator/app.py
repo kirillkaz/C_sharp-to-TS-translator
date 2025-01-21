@@ -23,6 +23,8 @@ def make_app() -> Dash:
         server=server,
         suppress_callback_exceptions=True,
         assets_folder="./assets",
+        title="C# to TypeScript Translator",
+        update_title="", 
     )
 
     return app
