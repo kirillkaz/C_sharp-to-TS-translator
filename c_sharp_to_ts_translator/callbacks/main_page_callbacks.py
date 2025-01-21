@@ -7,6 +7,8 @@ from c_sharp_to_ts_translator.lexical_analyzer.tokenizer import tokenize
 from c_sharp_to_ts_translator.parser import parse_to_AST
 from c_sharp_to_ts_translator.parser.utils import ast_to_string
 
+from ..gpt import  get_openai_response
+
 # чо ета? :3
 @app.callback(
     Output("to-textarea-id", "value"),
@@ -29,14 +31,17 @@ def translate_callback(_: int, from_value: str) -> str:
         str: Код на языке TS
     """
 
-    tokens = [
-        ("KEYWORD", "var"),  # ключевое слово "var" (для объявления переменной)
-        ("IDENTIFIER", "x"),  # имя переменной "x"
-        ("OPERATOR", "="),  # оператор присваивания "="
-        ("NUMBER", "10"),  # значение переменной "10"
-        ("SEMICOLON", ";")  # символ окончания строки ";"
-    ]
+    # tokens = [
+    #     ("KEYWORD", "var"),  # ключевое слово "var" (для объявления переменной)
+    #     ("IDENTIFIER", "x"),  # имя переменной "x"
+    #     ("OPERATOR", "="),  # оператор присваивания "="
+    #     ("NUMBER", "10"),  # значение переменной "10"
+    #     ("DELIMITER", ";")  # символ окончания строки ";"
+    # ]
     
-    ast = parse_to_AST(tokens)
+    # tokens = tokenize(from_value)
+    # ast = parse_to_AST(tokens)
 
-    return ast_to_string(ast)
+    res = get_openai_response(from_value)
+
+    return res

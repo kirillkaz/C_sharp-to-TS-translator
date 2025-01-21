@@ -8,7 +8,7 @@ def parse_to_AST(tokens):
     while position < len(tokens):
         token_type, token_value = tokens[position]
 
-        if token_type == "KEYWORD" and token_value == "var":
+        if token_type == "KEYWORD" and token_value in ["var", "new"]:
             nodes.append(parse_variable_declaration(tokens, position))
             position += 5;
         else:

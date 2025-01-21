@@ -7,7 +7,7 @@ def parse_variable_declaration(tokens, position):
     # Ожидаем структуру: type identifier = value ;
     type_token, identifier_token, assignment_token, value_token, semicolon_token = tokens[position:position + 5]
     
-    if type_token[0] == "KEYWORD" and assignment_token[0] == "OPERATOR" and assignment_token[1] == "=" and semicolon_token[0] == "SEMICOLON":
+    if type_token[0] == "KEYWORD" and assignment_token[0] == "OPERATOR" and assignment_token[1] == "=" and semicolon_token[0] == "DELIMITER" and semicolon_token[1] == ";":
         return ASTNode(	
             type="VariableDeclaration",
             children=[
