@@ -1,47 +1,50 @@
-import sys
-from dash import Input, Output, State
+from typing import Tuple
+
+from dash import Input, Output, State, no_update
 
 from c_sharp_to_ts_translator.app import app
 from c_sharp_to_ts_translator.lexical_analyzer.tokenizer import tokenize
 
-from c_sharp_to_ts_translator.parser import parse_to_AST
-from c_sharp_to_ts_translator.parser.utils import ast_to_string
 
-from ..gpt import  get_openai_response
+@app.callback(
+    Output("timer", "n_intervals"),
+    Output("timer", "interval"),
+    Output("timer", "disabled"),
+    Input("from-textarea-id", "value"),
+    prevent_initial_call=True,
+)
+def debounce_callback(_: int) -> Tuple[int, int, bool]:
+    """колбэк для сброса задержки запроса"""
 
-# чо ета? :3
+    return 0, 1000, False
+
+
+@app.callback(
+    Output("result", "data"),
+    Input("timer", "n_intervals"),
+    prevent_initial_call=True,
+)
+def translate_callback(trigger: int) -> str:
+    """Колбэк для трансляции кода (работает с задержкой)
+    """
+    if trigger == 2:
+        return "Тут нужно вернуть то, что будет в результате"
+    return no_update
+
+
 @app.callback(
     Output("to-textarea-id", "value"),
     Input("translate-button-id", "n_clicks"),
-    State("from-textarea-id", "value"),
+    State("result", "data"),
     prevent_initial_call=True,
 )
-
-
-
-
-
-def translate_callback(_: int, from_value: str) -> str:
-    """Колбек для трансляции языка C# в TS
+def print_result_callback(_: int, result: str) -> str:
+    """Колбэк вывода результата
 
     Args:
-        from_value (str): Код на языке C#
+        result (str): результат трансляции
 
     Returns:
-        str: Код на языке TS
+        str: результат трансляции
     """
-
-    # tokens = [
-    #     ("KEYWORD", "var"),  # ключевое слово "var" (для объявления переменной)
-    #     ("IDENTIFIER", "x"),  # имя переменной "x"
-    #     ("OPERATOR", "="),  # оператор присваивания "="
-    #     ("NUMBER", "10"),  # значение переменной "10"
-    #     ("DELIMITER", ";")  # символ окончания строки ";"
-    # ]
-    
-    # tokens = tokenize(from_value)
-    # ast = parse_to_AST(tokens)
-
-    res = get_openai_response(from_value)
-
-    return res
+    return result

@@ -1,1 +1,1 @@
-from .main_page_callbacks import translate_callback
+from .main_page_callbacks import translate_callback, debounce_callback, print_result_callback
