@@ -1,6 +1,5 @@
 import dash_bootstrap_components as dbc
-from dash import html
-
+from dash import html, dcc
 
 def _render_texareas_block() -> html.Div:
     """Функция для отрисовки блока с текстовыми полями"""
@@ -10,7 +9,6 @@ def _render_texareas_block() -> html.Div:
                 id="from-textarea-id",
                 placeholder="Введите код на C# для трансляции...",
                 className="from-textarea",
-                value="int a = 2;\nint b = 5;\nint c = a + b;"
             ),
             dbc.Textarea(
                 id="to-textarea-id",
@@ -18,6 +16,8 @@ def _render_texareas_block() -> html.Div:
                 className="to-textarea",
                 readOnly=True,
             ),
+            dcc.Interval(id="timer", interval=2000, max_intervals=2, disabled=True),
+            dcc.Store(id="result", storage_type="session"),
         ],
         className="textareas-block",
     )
