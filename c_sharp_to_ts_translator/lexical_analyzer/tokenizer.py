@@ -1,6 +1,6 @@
 import re
+from .tests.callback import tokenize
 
-# Определим шаблоны для различных токенов C#
 TOKENS = [
     ('KEYWORD', r'\b(break|byte|case|catch|char|const|continue|delegate|do|double|enum|false|float|true|foreach|in|int|interface|long|namespace|new|null|object|operator|private|public|private|protected|short|static|string|struct|switch|this|throw|try|using|void|class|if|else|return|for|while)\b'),
     ('CONTEXTUAL_KEYWORD', r'\b(add|and|args|dynamic|equals|global|nameof|not|remove|set|value|var|with)\b|:'),
@@ -26,7 +26,7 @@ def preprocess_code(code):
     return code.strip()
 
 # Токенизатор
-def tokenize(code):
+def tokenise(code):
     tokens = []
     code = preprocess_code(code)  # Предварительная обработка кода
     pos = 0
@@ -54,3 +54,19 @@ def tokenize(code):
             # Если токен не найден, выбрасываем ошибку
             raise SyntaxError(f"Неизвестный токен на строке {line}, позиции {pos}: '{code[pos]}'")
     return tokens
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -3,9 +3,9 @@ from typing import Tuple
 from dash import Input, Output, State, no_update
 
 from c_sharp_to_ts_translator.app import app
-from c_sharp_to_ts_translator.lexical_analyzer.tokenizer import tokenize
 
-from ..gpt import get_openai_response
+from ..lexical_analyzer.tokenizer import tokenize
+from ..parser import parse_to_AST
 
 @app.callback(
     Output("timer", "n_intervals"),
@@ -15,8 +15,6 @@ from ..gpt import get_openai_response
     prevent_initial_call=True,
 )
 def debounce_callback(_: int) -> Tuple[int, int, bool]:
-    """колбэк для сброса задержки запроса"""
-
     return 0, 1000, False
 
 
@@ -27,10 +25,13 @@ def debounce_callback(_: int) -> Tuple[int, int, bool]:
     prevent_initial_call=True,
 )
 def translate_callback(trigger: int, value: str) -> str:
-    """Колбэк для трансляции кода (работает с задержкой)
-    """
+    """Колбэк для трансляции кода"""
     if trigger == 2:
-        return get_openai_response(value)
+        tokens = tokenize(value)
+        AST_tree = parse_to_AST(tokens)
+        # todo: generate code
+
+        return AST_tree
     return no_update
 
 

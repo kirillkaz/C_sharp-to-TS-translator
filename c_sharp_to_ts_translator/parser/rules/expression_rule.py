@@ -32,3 +32,25 @@ def parse_unary_expression(tokens):
             ]
         )
     return None
+
+def parse_expression(tokens):
+    """
+    Определяет тип выражения (бинарное или унарное) и вызывает соответствующий парсер.
+    """
+    if not tokens:
+        return None
+
+    # Проверка на бинарное выражение
+    if len(tokens) >= 3:
+        binary_expression = parse_binary_expression(tokens)
+        if binary_expression:
+            return binary_expression
+
+    # Проверка на унарное выражение
+    if len(tokens) >= 2:
+        unary_expression = parse_unary_expression(tokens)
+        if unary_expression:
+            return unary_expression
+
+    # Если ни одно из условий не подошло, возвращаем None
+    return None
