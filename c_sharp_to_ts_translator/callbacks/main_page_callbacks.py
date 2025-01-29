@@ -7,6 +7,8 @@ from c_sharp_to_ts_translator.lexical_analyzer.tokenizer import tokenize
 from c_sharp_to_ts_translator.parser import Parser
 from c_sharp_to_ts_translator.parser.utils import ast_to_string
 
+from c_sharp_to_ts_translator.code_generator.generator import generate_ts_code
+
 # чо ета? :3
 @app.callback(
     Output("to-textarea-id", "value"),
@@ -59,4 +61,6 @@ def translate_callback(_: int, from_value: str) -> str:
     parser = Parser(tokens)
     ast = parser.parse_to_AST()
 
-    return ast_to_string(ast)
+    ts_code = generate_ts_code(ast)
+
+    return ts_code

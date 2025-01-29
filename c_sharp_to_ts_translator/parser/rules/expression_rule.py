@@ -17,7 +17,23 @@ def parse_binary_expression(tokens, position):
         position += 3
         return ast_node, position
     
+    # Дополнительная проверка для деления, если оно отделено от других операторов
+    if operator_token[0] == "DIVISION" and \
+       (left_token[0] in ["NUMBER", "IDENTIFIER"]) and \
+       (right_token[0] in ["NUMBER", "IDENTIFIER"]):
+        ast_node = ASTNode(
+            type="BinaryExpression",
+            children=[
+                ASTNode(type="LeftOperand", value=left_token[1]),
+                ASTNode(type="Operator", value=operator_token[1]),
+                ASTNode(type="RightOperand", value=right_token[1])
+            ]
+        )
+        position += 3
+        return ast_node, position
+
     return None, position
+
 
 def parse_unary_expression(tokens, position):
     if position + 1 >= len(tokens):
