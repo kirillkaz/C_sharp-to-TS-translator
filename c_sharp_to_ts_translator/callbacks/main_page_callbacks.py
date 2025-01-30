@@ -3,8 +3,10 @@ from typing import Tuple
 from dash import Input, Output, State, no_update
 
 from c_sharp_to_ts_translator.app import app
-from c_sharp_to_ts_translator.lexical_analyzer.tokenizer import tokenize
 
+from ..lexical_analyzer.tokenizer import tokenize
+from ..parser import parse_to_AST
+from ..code_generator import generate
 
 @app.callback(
     Output("timer", "n_intervals"),
@@ -14,21 +16,23 @@ from c_sharp_to_ts_translator.lexical_analyzer.tokenizer import tokenize
     prevent_initial_call=True,
 )
 def debounce_callback(_: int) -> Tuple[int, int, bool]:
-    """колбэк для сброса задержки запроса"""
-
     return 0, 1000, False
 
 
 @app.callback(
     Output("result", "data"),
     Input("timer", "n_intervals"),
+    State("from-textarea-id", "value"),
     prevent_initial_call=True,
 )
-def translate_callback(trigger: int) -> str:
-    """Колбэк для трансляции кода (работает с задержкой)
-    """
+def translate_callback(trigger: int, value: str) -> str:
+    """Колбэк для трансляции кода"""
     if trigger == 2:
-        return "Тут нужно вернуть то, что будет в результате"
+        tokens = tokenize(value)
+        AST_tree = parse_to_AST(tokens)
+        ts_code = generate(AST_tree)
+
+        return ts_code
     return no_update
 
 
