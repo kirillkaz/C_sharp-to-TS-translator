@@ -3,9 +3,10 @@ from typing import Tuple
 from dash import Input, Output, State, no_update
 
 from c_sharp_to_ts_translator.app import app
-from c_sharp_to_ts_translator.lexical_analyzer.tokenizer import tokenize
+from c_sharp_to_ts_translator.callback import tokenize
+from c_sharp_to_ts_translator.parser import parse_to_AST
 
-from ..gpt import get_openai_response
+from ..callback import get_openai_response
 
 @app.callback(
     Output("timer", "n_intervals"),
@@ -30,6 +31,8 @@ def translate_callback(trigger: int, value: str) -> str:
     """Колбэк для трансляции кода (работает с задержкой)
     """
     if trigger == 2:
+        tokens = tokenize(value)
+        ast = parse_to_AST(tokens)
         return get_openai_response(value)
     return no_update
 

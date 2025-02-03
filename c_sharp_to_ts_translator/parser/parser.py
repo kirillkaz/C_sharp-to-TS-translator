@@ -2,6 +2,8 @@ from .rules import parse_variable_declaration
 from .ASTNode import ASTNode
 
 def parse_to_AST(tokens):
+    if isinstance(tokens, str):
+        return tokens
     nodes = []
     position = 0
 
