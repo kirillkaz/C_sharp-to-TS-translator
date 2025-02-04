@@ -17,6 +17,7 @@ def is_brackets_balanced(s: str) -> bool:
 
 @lru_cache(maxsize=100)
 def tokenize(source_code, model="gpt-4"):
+    print('start')
     if not is_brackets_balanced(source_code):
         return "SyntaxError"
 

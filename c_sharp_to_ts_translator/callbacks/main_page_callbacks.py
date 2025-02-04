@@ -5,8 +5,7 @@ from dash import Input, Output, State, no_update
 from c_sharp_to_ts_translator.app import app
 from c_sharp_to_ts_translator.callback import tokenize
 from c_sharp_to_ts_translator.parser import parse_to_AST
-
-from ..callback import get_openai_response
+from c_sharp_to_ts_translator.code_generator.generator import generate
 
 @app.callback(
     Output("timer", "n_intervals"),
@@ -33,7 +32,8 @@ def translate_callback(trigger: int, value: str) -> str:
     if trigger == 2:
         tokens = tokenize(value)
         ast = parse_to_AST(tokens)
-        return get_openai_response(value)
+        code = generate(ast)
+        return tokens
     return no_update
 
 
