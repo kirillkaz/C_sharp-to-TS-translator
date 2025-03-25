@@ -6,7 +6,6 @@ from .node_handlers.objects import handle_array_access, handle_object_access
 from .node_handlers.literals import handle_literal
 
 def generate(ast):
-    print(ast)
     if isinstance(ast, str):
         return ast
     """Главная функция генерации кода TypeScript из AST."""

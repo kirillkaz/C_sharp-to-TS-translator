@@ -3,9 +3,11 @@ from typing import Tuple
 from dash import Input, Output, State, no_update
 
 from c_sharp_to_ts_translator.app import app
-from c_sharp_to_ts_translator.callback import tokenize
+from c_sharp_to_ts_translator.test import tokenize
 from c_sharp_to_ts_translator.parser import parse_to_AST
-from c_sharp_to_ts_translator.code_generator.generator import generate
+
+def generate(val):
+    return val
 
 @app.callback(
     Output("timer", "n_intervals"),
@@ -33,7 +35,7 @@ def translate_callback(trigger: int, value: str) -> str:
         tokens = tokenize(value)
         ast = parse_to_AST(tokens)
         code = generate(ast)
-        return tokens
+        return code
     return no_update
 
 
