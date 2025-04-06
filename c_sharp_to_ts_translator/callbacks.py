@@ -14,6 +14,7 @@ def register_callbacks(app):
         Output("error-alert", "children"),
         Output("error-alert", "is_open"),
         Input("translate-button-id", "n_clicks"),
+        Input("format-button-id", "n_clicks"),
         State("from-textarea-id", "value"),
         prevent_initial_call=True
     )

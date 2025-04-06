@@ -29,6 +29,12 @@ def _render_button_block() -> html.Div:
     return html.Div(
         [
             dbc.Button(
+                id="format-button-id",
+                className="format-button",
+                children="Форматировать",
+                color="secondary",
+            ),
+            dbc.Button(
                 id="translate-button-id",
                 className="translate-button",
                 children="Транслировать код!",

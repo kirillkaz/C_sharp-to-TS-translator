@@ -1,3 +1,4 @@
+import requests
 from typing import Tuple
 from dash import Input, Output, State, no_update
 from c_sharp_to_ts_translator.app import app
@@ -44,6 +45,55 @@ def translate_callback(trigger: int, value: str) -> str:
 def print_result_callback(_: int, result: str) -> str:
     """Колбэк вывода результата"""
     return result
+
+
+# Колбэк для кнопки "Форматировать"
+@app.callback(
+    Output("from-textarea-id", "value"),
+    Input("format-button-id", "n_clicks"),
+    State("from-textarea-id", "value"),
+    prevent_initial_call=True,
+)
+def format_code(n_clicks: int, code: str) -> str:
+    """Колбэк для форматирования кода с использованием внешнего API"""
+    if n_clicks is not None and n_clicks > 0:
+        url = "https://playground.csharpier.com/Format"
+        headers = {
+            "accept": "*/*",
+            "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
+            "cache-control": "no-cache",
+            "content-type": "application/json",
+            "origin": "https://playground.csharpier.com",
+            "priority": "u=1, i",
+            "referer": "https://playground.csharpier.com",
+            "sec-ch-ua": "\"Chromium\";v=\"134\", \"Not:A-Brand\";v=\"24\", \"Google Chrome\";v=\"134\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-origin",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+        }
+        payload = {
+            "code": code,
+            "printWidth": 100,
+            "indentSize": 4,
+            "useTabs": False,
+            "parser": "CSharp"
+        }
+
+        response = requests.post(url, json=payload, headers=headers)
+
+        if response.status_code == 200:
+            response_data = response.json()
+            formatted_code = response_data.get('code', '')
+            print("Форматированный код:", formatted_code)
+            return formatted_code
+        else:
+            print("Ошибка при форматировании:", response.status_code, response.text)
+            return no_update
+
+    return no_update
 
 
 # Колбэк для управления кнопкой копирования и уведомлением

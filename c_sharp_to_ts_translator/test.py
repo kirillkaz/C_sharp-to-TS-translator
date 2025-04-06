@@ -16,7 +16,7 @@ def is_brackets_balanced(s: str) -> bool:
     return not stack  # Если стек пуст, скобки сбалансированы
 
 @lru_cache(maxsize=100)
-def tokenize(source_code, model="gpt-4"):
+def tokenize(source_code, model="gpt-3.5-turbo"):
     if not is_brackets_balanced(source_code):
         return "SyntaxError"
 
